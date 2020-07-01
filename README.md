@@ -20,7 +20,7 @@ make
 ./deeplab /home/ypl/dataset/pytorch_model/deeplabv3+.pt
 ```
 ##　libtorch版本问题
-下载的libtorch版本的时候，向下兼容，比如下载　cuda10.1对应的版本,https://download.pytorch.org/libtorch/cu101/libtorch-shared-with-deps-1.5.1%2Bcu101.zip
+下载的libtorch版本的时候，向下兼容，比如下载　cuda10.1对应的版本,https://download.pytorch.org/libtorch/cu101/libtorch-shared-with-deps-1.5.**1**%2Bcu101.zip
 在Cuda10.0上是可以运行的.但是如果你下的是cuda9.0 本机是cuda10.0 就会报错.
 
 ## libtorch 调用cuda
@@ -46,11 +46,20 @@ terminate called after throwing an instance of 'cv::Exception'
   what():  /tmp/binarydeb/ros-kinetic-opencv3-3.3.1/modules/imgproc/src/resize.cpp:3939: error: (-215) ssize.width > 0 && ssize.height > 0 in function resize
   > 解决办法: 检查传入的图片路径是否写对,这个报错是因为没有读到图片,所以没有办法resize
 2. torch::Double can’t be casted to double directly, you should use output_tensor[i][j][k].item().to<double>(). It first converts a Tensor with a single value to a ScalarType then to a double.
+
+3.CUDA运算的数据不能转为为Eigen,要先将Tensor转为cpu类型,才可以转 
+
+
  # 参考资料
  https://pytorch.org/tutorials/advanced/cpp_frontend.html
  https://blog.csdn.net/u010397980/article/details/89437628
  https://www.jianshu.com/p/9e8eb211df62
- 关于libtorch的问题,可以在下面这个网址提问或者搜索答案
+ 
+ 1. 关于libtorch的问题,可以在下面这个网址提问或者搜索答案
  https://discuss.pytorch.org/t/type-conversion-in-libtorch-for-c/45139
- mat->opencv可视化
+ 
+ 5. mat->opencv可视化
  https://blog.csdn.net/qq_34917728/article/details/84502004?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase
+ 
+ 6. Data transfer between LibTorch C++ and Eigen
+ https://discuss.pytorch.org/t/data-transfer-between-libtorch-c-and-eigen/54156
